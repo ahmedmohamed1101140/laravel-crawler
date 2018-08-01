@@ -15,6 +15,7 @@
 
 Route::post('/add','ProductController@add_new');
 Route::post('/refresh','ProductController@refresh');
+Route::get('/delete/{id}','ProductController@delete');
 
 Route::post('/test',function(\Illuminate\Http\Request $request){
   $main_url= $request->url;

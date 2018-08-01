@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('name')->default('Not Found');
             $table->string('link')->default('Not Found');
             $table->longText('url');
+            $table->string('type');
             $table->string('price')->default(0);
             $table->string('amount')->default('Not Found');
             $table->timestamp('last_update');

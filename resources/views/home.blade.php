@@ -43,14 +43,26 @@
                             <small class="text-muted">{{$product->amount}}</small>
                             <br>
                             <small class="text-muted">last refresh: {{$product->updated_at->diffForHumans()}}</small>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    @if($product->type =='souq')
+                                         <span class="badge badge-primary badge-pill"> Souq</span>
+                                    @elseif($product->type =='amazon')
+                                        <span class="badge badge-success badge-pill"> Amazon</span>
+                                    @else
+                                        <span class="badge badge-danger badge-pill"> not found</span>
+                                    @endif
+
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{url('/delete/'.$product->id)}}" style="width: 90px; margin-left: 152px;" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
                         </div>
                         <span class="text-muted">{{$product->price}}</span>
                     </li>
                 @endforeach
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total </span>
-                    <strong>500</strong>
-                </li>
             </ul>
 
             <form class="card p-2" method="post" action="{{url('/refresh')}}">
@@ -89,7 +101,7 @@
                         <label class="custom-control-label" for="paypal">Jumia</label>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Add Product</button>
             </form>
         </div>
     </div>

@@ -15,21 +15,183 @@ class ProductController extends Controller
     //
 
     public function add_new (Request $request){
-//        dd($request->all());
         $this->validate($request,array(
             'link' => 'required',
             'paymentMethod' => 'required'
         ));
 
-        if($request->paymentMethod =='amazon' || $request->paymentMethod == 'jumia'){
+        if($request->paymentMethod == 'jumia'){
             Session::flash('error',"we Don't support them yet!");
             return redirect()->back();
         }
 
+        else if($request->paymentMethod =='amazon' && str_contains($request->link,'amazon.com')){
+            $this->add_amazon($request);
+        }
+
+        else if($request->paymentMethod =='souq' && str_contains($request->link,'souq.com')){
+            $this->add_souq($request);
+        }
+        else{
+            Session::flash('error',"Link Dosen't Match with the Chosen website");
+            return redirect()->back();
+        }
+
+
+        Session::flash('success','Product Added Successfully');
+        return redirect()->back();
+    }
+
+    public function refresh(Request $request){
+        $products = Auth::user()->products;
+        foreach ($products as $product){
+            if($product->type == 'souq'){
+                $this->refresh_souq_items($product);
+            }
+            elseif($product->type == 'amazon'){
+                $this->refresh_amazon_items($product);
+            }
+        }
+
+        Session::flash('success','All Products Syncs');
+        return redirect()->back();
+    }
+
+    protected function refresh_souq_items($item){
+        $product = Product::find($item->id);
+        $product->last_update = Carbon::now();
+
+        $main_url= $product->url;
+        $str = file_get_contents($main_url);
+
+        // Gets Webpage Title
+        if(strlen($str)>0)
+        {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
+            $title=$title[1];
+        }
+
+
+        // Gets Webpage Internal Links
+        $doc = new DOMDocument;
+        @$doc->loadHTML($str);
+
+        $items = $doc->getElementsByTagName('b');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'txtcolor-alert xleft' ){
+                $attrs = $value->nodeValue;
+                $product->amount = $attrs;
+            }
+        }
+
+
+        $product->save();
+        return;
+    }
+
+    protected function refresh_amazon_items($item){
+        $product = Product::find($item->id);
+        $product->last_update = Carbon::now();
+
+        $main_url= $product->url;
+        $str = file_get_contents($main_url);
+
+        // Gets Webpage Title
+        if(strlen($str)>0)
+        {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
+            $title=$title[1];
+        }
+
+
+        // Gets Webpage Internal Links
+        $doc = new DOMDocument;
+        @$doc->loadHTML($str);
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
+                $attrs = $value->nodeValue;
+                $product->amount = $attrs;
+            }
+        }
+
+
+        $product->save();
+        return;
+    }
+    
+    protected function add_amazon($request){
         $product = new Product();
         $product->user_id = auth()->user()->id;
         $product->last_update = Carbon::now();
         $product->url = $request->link;
+        $product->type = $request->paymentMethod;
+        $product->link = $request->link;
+
+
+        $main_url= $request->link;
+        $str = file_get_contents($main_url);
+
+        // Gets Webpage Title
+        if(strlen($str)>0)
+        {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
+        }
+
+
+        // Gets Webpage Internal Links
+        $doc = new DOMDocument;
+        @$doc->loadHTML($str);
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
+                $attrs = $value->nodeValue;
+                $product->amount = $attrs;
+            }
+        }
+
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-price' ){
+                $attrs = $value->nodeValue;
+                $product->price = $attrs;
+            }
+        }
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-large' ){
+                $attrs = $value->nodeValue;
+                $product->name = $attrs;
+
+            }
+        }
+
+        $product->save();
+
+    }
+
+    protected function add_souq($request){
+        $product = new Product();
+        $product->user_id = auth()->user()->id;
+        $product->last_update = Carbon::now();
+        $product->url = $request->link;
+        $product->type = $request->paymentMethod;
+
 
 
         $main_url= $request->link;
@@ -88,51 +250,11 @@ class ProductController extends Controller
         }
 
         $product->save();
-        Session::flash('success','Product Added Successfully');
-        return redirect()->back();
     }
 
-    public function refresh(Request $request){
-        $products = Auth::user()->products;
-        foreach ($products as $product){
-            $this->refresh_items($product);
-        }
-
-        Session::flash('success','All Products Syncs');
+    public function delete($id){
+        Product::destroy($id);
+        Session::flash('success','Product Deleted Successfully');
         return redirect()->back();
-    }
-
-    protected function refresh_items($item){
-        $product = Product::find($item->id);
-        $product->last_update = Carbon::now();
-
-        $main_url= $product->url;
-        $str = file_get_contents($main_url);
-
-        // Gets Webpage Title
-        if(strlen($str)>0)
-        {
-            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
-            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
-            $title=$title[1];
-        }
-
-
-        // Gets Webpage Internal Links
-        $doc = new DOMDocument;
-        @$doc->loadHTML($str);
-
-        $items = $doc->getElementsByTagName('b');
-        foreach($items as $value)
-        {
-            if($value->getAttribute('class') == 'txtcolor-alert xleft' ){
-                $attrs = $value->nodeValue;
-                $product->amount = $attrs;
-            }
-        }
-
-
-        $product->save();
-        return;
     }
 }
