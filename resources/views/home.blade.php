@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -13,12 +12,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    Welcome To your dashboard add and track website's items
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <div class="container">
     <div class="py-5 text-center">
@@ -30,8 +27,8 @@
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">Your Proudcts</span>
-                <span class="badge badge-secondary badge-pill"> {{ Auth::user()->products->count()}}</span>
+                <span class="text-muted">Your Products</span>
+                <span class="badge badge-primary badge-pill"> {{ Auth::user()->products->count()}}</span>
             </h4>
             <ul class="list-group mb-3">
                 @foreach(Auth::user()->products as $product)
@@ -47,11 +44,11 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     @if($product->type =='souq')
-                                         <span class="badge badge-primary badge-pill"> Souq</span>
+                                        <span class="badge badge-primary "> Souq</span>
                                     @elseif($product->type =='amazon')
-                                        <span class="badge badge-success badge-pill"> Amazon</span>
+                                        <span class="badge badge-success "> Amazon</span>
                                     @else
-                                        <span class="badge badge-danger badge-pill"> not found</span>
+                                        <span class="badge badge-danger "> not found</span>
                                     @endif
 
                                 </div>

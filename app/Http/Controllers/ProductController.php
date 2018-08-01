@@ -42,7 +42,7 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function refresh(Request $request){
+    public function refresh(){
         $products = Auth::user()->products;
         foreach ($products as $product){
             if($product->type == 'souq'){
@@ -124,7 +124,7 @@ class ProductController extends Controller
         $product->save();
         return;
     }
-    
+
     protected function add_amazon($request){
         $product = new Product();
         $product->user_id = auth()->user()->id;
