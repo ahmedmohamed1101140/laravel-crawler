@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function (){
+   return view('welcome');
+});
+
 
 
 Route::post('/add','ProductController@add_new');

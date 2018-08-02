@@ -26,11 +26,17 @@ class ProductController extends Controller
         }
 
         else if($request->paymentMethod =='amazon' && str_contains($request->link,'amazon.com')){
-            $this->add_amazon($request);
+            if(!$this->add_amazon($request)){
+                Session::flash('error',"Failed To Find Amazon.com Product Please Try Again");
+                return redirect()->back();
+            }
         }
 
         else if($request->paymentMethod =='souq' && str_contains($request->link,'souq.com')){
-            $this->add_souq($request);
+            if(!$this->add_souq($request)){
+                Session::flash('error',"Failed To Find Souq.com Product Please Try Again");
+                return redirect()->back();
+            }
         }
         else{
             Session::flash('error',"Link Dosen't Match with the Chosen website");
@@ -103,7 +109,6 @@ class ProductController extends Controller
         {
             $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
             preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
-            $title=$title[1];
         }
 
 
@@ -121,8 +126,9 @@ class ProductController extends Controller
         }
 
 
+
         $product->save();
-        return;
+        return true;
     }
 
     protected function add_amazon($request){
@@ -180,9 +186,12 @@ class ProductController extends Controller
 
             }
         }
+        if($product->name = "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
+            return false;
+        }
 
         $product->save();
-
+        return true;
     }
 
     protected function add_souq($request){
@@ -249,7 +258,12 @@ class ProductController extends Controller
             }
         }
 
+        if($product->name = "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
+            return false;
+        }
+
         $product->save();
+        return true;
     }
 
     public function delete($id){

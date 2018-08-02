@@ -81,9 +81,9 @@
         <div class="title m-b-md">
             Web Scraping
         </div>
+        <p style="color: black; font-size: 38px;">with this demo you can scrap the amount of products in websites stock like souq jumia and amazon Register for free and test</p>
 
         <div class="links">
-            <p>with this demo you can scrap the amount of products in websites stock like souq jumia and amazon Register for free and test</p>
             {{--<a href="https://laravel.com/docs">Documentation</a>--}}
             {{--<a href="https://laracasts.com">Laracasts</a>--}}
             {{--<a href="https://laravel-news.com">News</a>--}}
