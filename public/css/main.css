@@ -19,7 +19,6 @@
     100% { transform: rotate(360deg); }
 }
 
-body { margin-top:30px; }
 hr.message-inner-separator
 {
     clear: both;
