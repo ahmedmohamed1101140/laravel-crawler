@@ -186,7 +186,7 @@ class ProductController extends Controller
 
             }
         }
-        if($product->name = "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
+        if($product->name == "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
             return false;
         }
 
@@ -254,11 +254,10 @@ class ProductController extends Controller
             if($value->getAttribute('class') == 'title' ){
                 $attrs = $value->nodeValue;
                 $product->name = $attrs;
-
             }
         }
 
-        if($product->name = "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
+        if($product->name == "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
             return false;
         }
 
