@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\URL;
 
 class HttpsProtocol
 {
@@ -17,6 +18,7 @@ class HttpsProtocol
     {
         $url = parse_url(getenv("APP_ENV"));
         if (!$request->secure() && $url === 'prod') {
+            URL::forceSchema('https');
             return redirect()->secure($request->getRequestUri());
         }
         return $next($request);
