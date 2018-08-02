@@ -18,7 +18,7 @@ class HttpsProtocol
     {
         $url = parse_url(getenv("APP_ENV"));
         if (!$request->secure() && $url === 'prod') {
-            URL::forceSchema('https');
+//            URL::forceSchema('https');
             return redirect()->secure($request->getRequestUri());
         }
         return $next($request);

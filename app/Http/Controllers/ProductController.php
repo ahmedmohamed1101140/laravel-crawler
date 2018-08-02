@@ -270,4 +270,17 @@ class ProductController extends Controller
         Session::flash('success','Product Deleted Successfully');
         return redirect()->back();
     }
+
+    public function refresh_ajax(Request $request){
+        $products = Auth::user()->products;
+        foreach ($products as $product){
+            if($product->type == 'souq'){
+                $this->refresh_souq_items($product);
+            }
+            elseif($product->type == 'amazon'){
+                $this->refresh_amazon_items($product);
+            }
+        }
+        return true;
+    }
 }

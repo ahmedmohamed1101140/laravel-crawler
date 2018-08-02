@@ -1,12 +1,6 @@
 <?php
 
 
-if (env('APP_ENV') === 'production') {
-    URL::forceSchema('https');
-}
-
-//URL::forceSchema('https');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +17,7 @@ Route::get('/', function (){
    return view('welcome');
 });
 
+Route::post('/refresh_api','ProductController@refresh_ajax')->name('home.refresh');
 
 
 Route::post('/add','ProductController@add_new');
