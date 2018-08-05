@@ -84,22 +84,22 @@
         <p class="lead">Below is a Demo made for web-scraping you can scrap the Amount of the products by providing the link of the product from earthier <span class="badge badge-primary badge-pill"> Souq</span> <span class="badge badge-success badge-pill"> Amazon</span> <span class="badge badge-warning badge-pill"> Jumia</span></p>
     </div>
 
-    @if(Auth::user()->products->count() > 0)
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-12">
-                <div class="alert alert-info">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                        ×</button>
-                    <strong>Auto Pilot</strong>
-                    <hr class="message-inner-separator">
-                    <p>
-                        All Your Product/s are up to date keep Adding New Products</p>
-                </div>
-            </div>
-        </div>
-    </div><br><br>
-    @endif
+    {{--@if(Auth::user()->products->count() > 0)--}}
+    {{--<div class="container">--}}
+        {{--<div class="row">--}}
+            {{--<div class="col-sm-6 col-md-12">--}}
+                {{--<div class="alert alert-info">--}}
+                    {{--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">--}}
+                        {{--×</button>--}}
+                    {{--<strong>Auto Pilot</strong>--}}
+                    {{--<hr class="message-inner-separator">--}}
+                    {{--<p>--}}
+                        {{--All Your Product/s are up to date keep Adding New Products</p>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div><br><br>--}}
+    {{--@endif--}}
 
 
     <div class="row">
@@ -130,7 +130,6 @@
                                     @else
                                         <span class="badge badge-danger "> not found</span>
                                     @endif
-
                                 </div>
                                 <div class="col-md-6">
                                     <a href="{{url('/delete/'.$product->id)}}" style="width: 90px; margin-left: 152px;" class="btn btn-danger">Delete</a>
@@ -149,14 +148,14 @@
                 </div>
             </form>
 
-            <h4 style="margin-top: 20px;" class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">auto pilot</span>
-                <label class="switch">
-                    <input id="auto_pilot" type="checkbox" checked>
-                    <span class="slider round"></span>
-                </label>
+            {{--<h4 style="margin-top: 20px;" class="d-flex justify-content-between align-items-center mb-3">--}}
+                {{--<span class="text-muted">auto pilot</span>--}}
+                {{--<label class="switch">--}}
+                    {{--<input id="auto_pilot" type="checkbox" checked>--}}
+                    {{--<span class="slider round"></span>--}}
+                {{--</label>--}}
 
-            </h4>
+            {{--</h4>--}}
             <h4  class="d-flex justify-content-between align-items-center mb-3">
             </h4>
 
@@ -181,14 +180,14 @@
                         <input id="credit" value="souq" name="paymentMethod" type="radio" class="custom-control-input" checked required>
                         <label class="custom-control-label" for="credit">Souq</label>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input id="debit" name="paymentMethod" value="amazon" type="radio" class="custom-control-input" required>
-                        <label class="custom-control-label" for="debit">Amazon</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input id="paypal" name="paymentMethod" type="radio" value="jumia" class="custom-control-input" required>
-                        <label class="custom-control-label" for="paypal">Jumia</label>
-                    </div>
+                    {{--<div class="custom-control custom-radio">--}}
+                        {{--<input id="debit" name="paymentMethod" value="amazon" type="radio" class="custom-control-input" required>--}}
+                        {{--<label class="custom-control-label" for="debit">Amazon</label>--}}
+                    {{--</div>--}}
+                    {{--<div class="custom-control custom-radio">--}}
+                        {{--<input id="paypal" name="paymentMethod" type="radio" value="jumia" class="custom-control-input" required>--}}
+                        {{--<label class="custom-control-label" for="paypal">Jumia</label>--}}
+                    {{--</div>--}}
                 </div>
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Add Product</button>
             </form>
