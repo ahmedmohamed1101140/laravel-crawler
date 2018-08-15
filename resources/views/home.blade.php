@@ -117,7 +117,11 @@
                             <a href="{{$product->link}}">
                                 <h6 class="my-0">{{$product->name}}</h6>
                             </a>
-                            <small class="text-muted">{{$product->amount}}</small>
+                            @if(strlen($product->amount) < 10)
+                                <small class="text-muted">Not Found Try Later</small>
+                            @else
+                                <small class="text-muted">{{$product->amount}}</small>
+                            @endif
                             <br>
                             <small class="text-muted">last refresh: {{$product->updated_at->diffForHumans()}}</small>
                             <br>
