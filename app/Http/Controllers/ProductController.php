@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Amount;
 use App\Product;
 use Carbon\Carbon;
 use DOMDocument;
@@ -84,114 +85,25 @@ class ProductController extends Controller
         @$doc->loadHTML($str);
 
         $items = $doc->getElementsByTagName('b');
+        $new_amount ='';
         foreach($items as $value)
         {
             if($value->getAttribute('class') == 'txtcolor-alert xleft' ){
                 $attrs = $value->nodeValue;
-                $product->amount = $attrs;
+//                $product->amount = $attrs;
+                $new_amount = $attrs;
             }
         }
-
+        if($new_amount != $product->amount){
+            $product->amount = $new_amount;
+            $amount = new Amount();
+            $amount->prod_id = $product->id;
+            $amount->amount = $new_amount;
+            $amount->save();
+        }
 
         $product->save();
         return;
-    }
-
-    protected function refresh_amazon_items($item){
-        $product = Product::find($item->id);
-        $product->last_update = Carbon::now();
-
-        $main_url= $product->url;
-        $str = file_get_contents($main_url);
-
-        // Gets Webpage Title
-        if(strlen($str)>0)
-        {
-            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
-            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
-        }
-
-
-        // Gets Webpage Internal Links
-        $doc = new DOMDocument;
-        @$doc->loadHTML($str);
-
-        $items = $doc->getElementsByTagName('span');
-        foreach($items as $value)
-        {
-            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
-                $attrs = $value->nodeValue;
-                $product->amount = $attrs;
-            }
-        }
-
-
-
-        $product->save();
-        return true;
-    }
-
-    protected function add_amazon($request){
-        $product = new Product();
-        $product->user_id = auth()->user()->id;
-        $product->last_update = Carbon::now();
-        $product->url = $request->link;
-        $product->type = $request->paymentMethod;
-        $product->link = $request->link;
-
-
-        $main_url= $request->link;
-        $str = file_get_contents($main_url);
-
-        // Gets Webpage Title
-        if(strlen($str)>0)
-        {
-            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
-            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
-        }
-
-
-        // Gets Webpage Internal Links
-        $doc = new DOMDocument;
-        @$doc->loadHTML($str);
-
-
-        $items = $doc->getElementsByTagName('span');
-        foreach($items as $value)
-        {
-            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
-                $attrs = $value->nodeValue;
-                $product->amount = $attrs;
-            }
-        }
-
-
-
-        $items = $doc->getElementsByTagName('span');
-        foreach($items as $value)
-        {
-            if($value->getAttribute('class') == 'a-size-medium a-color-price' ){
-                $attrs = $value->nodeValue;
-                $product->price = $attrs;
-            }
-        }
-
-
-        $items = $doc->getElementsByTagName('span');
-        foreach($items as $value)
-        {
-            if($value->getAttribute('class') == 'a-size-large' ){
-                $attrs = $value->nodeValue;
-                $product->name = $attrs;
-
-            }
-        }
-        if($product->name == "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
-            return false;
-        }
-
-        $product->save();
-        return true;
     }
 
     protected function add_souq($request){
@@ -262,6 +174,10 @@ class ProductController extends Controller
         }
 
         $product->save();
+        $amount = new Amount();
+        $amount->prod_id = $product->id;
+        $amount->amount = $product->amount;
+        $amount->save();
         return true;
     }
 
@@ -283,4 +199,102 @@ class ProductController extends Controller
         }
         return true;
     }
+
+    protected function add_amazon($request){
+        $product = new Product();
+        $product->user_id = auth()->user()->id;
+        $product->last_update = Carbon::now();
+        $product->url = $request->link;
+        $product->type = $request->paymentMethod;
+        $product->link = $request->link;
+
+
+        $main_url= $request->link;
+        $str = file_get_contents($main_url);
+
+        // Gets Webpage Title
+        if(strlen($str)>0)
+        {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
+        }
+
+
+        // Gets Webpage Internal Links
+        $doc = new DOMDocument;
+        @$doc->loadHTML($str);
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
+                $attrs = $value->nodeValue;
+                $product->amount = $attrs;
+            }
+        }
+
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-price' ){
+                $attrs = $value->nodeValue;
+                $product->price = $attrs;
+            }
+        }
+
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-large' ){
+                $attrs = $value->nodeValue;
+                $product->name = $attrs;
+
+            }
+        }
+        if($product->name == "Not Found" && $product->amount == 'Not Found' && $product->price ==0){
+            return false;
+        }
+
+        $product->save();
+        return true;
+    }
+
+    protected function refresh_amazon_items($item){
+        $product = Product::find($item->id);
+        $product->last_update = Carbon::now();
+
+        $main_url= $product->url;
+        $str = file_get_contents($main_url);
+
+        // Gets Webpage Title
+        if(strlen($str)>0)
+        {
+            $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
+            preg_match("/\<title\>(.*)\<\/title\>/i",$str,$title); // ignore case
+        }
+
+
+        // Gets Webpage Internal Links
+        $doc = new DOMDocument;
+        @$doc->loadHTML($str);
+
+        $items = $doc->getElementsByTagName('span');
+        foreach($items as $value)
+        {
+            if($value->getAttribute('class') == 'a-size-medium a-color-success' ){
+                $attrs = $value->nodeValue;
+                $product->amount = $attrs;
+            }
+        }
+
+
+
+        $product->save();
+        return true;
+    }
+
 }

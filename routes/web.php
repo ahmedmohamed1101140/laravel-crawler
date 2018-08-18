@@ -19,9 +19,8 @@ Route::get('/', function (){
 
 Route::post('/refresh_api','ProductController@refresh_ajax')->name('home.refresh');
 
-
 Route::post('/add','ProductController@add_new');
-Route::post('/refresh','ProductController@refresh');
+Route::get('/refresh','ProductController@refresh');
 Route::get('/delete/{id}','ProductController@delete');
 
 Route::post('/test',function(\Illuminate\Http\Request $request){

@@ -12,4 +12,8 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function amounts(){
+        return $this->hasMany(Amount::class,'prod_id','id');
+    }
 }

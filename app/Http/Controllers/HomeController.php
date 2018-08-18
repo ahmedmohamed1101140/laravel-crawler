@@ -38,7 +38,7 @@ class HomeController extends Controller
 //            Session::flash('success','All Products Syncs');
 //            return view('home');
 //        }
-        return view('home');
+        return view('test');
     }
 
     protected function refresh_souq_items($item){

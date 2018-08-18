@@ -18,7 +18,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -30,7 +30,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="https://maxeseg.com/">
+                <a class="navbar-brand" href="http://chan-scan.com">
                     Chan Scan
                     {{--<img src="{{asset('img/home.png')}}" alt="Maxes-EG">--}}
                 </a>
@@ -79,43 +79,11 @@
         </nav>
 
 
-        <br>
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
-                    @if(Session::has('success'))
-                        <div class="alert alert-success" role="alert">
-                            <strong>Success </strong>{{Session::get('success')}}
-                        </div>
-
-                    @elseif(Session::has('error'))
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Error </strong>{{Session::get('error')}}
-                        </div>
-                    @endif
-                    @if(count($errors) > 0)
-                        <div class="alert alert-danger", role="alert">
-                            <Strong>Error</Strong>
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>
-                                        {{$error}}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-        </div>
 
 
 
-        <main class="py-4">
+
             @yield('content')
-        </main>
 
     </div>
 
