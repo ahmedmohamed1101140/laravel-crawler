@@ -79,9 +79,12 @@
 </div>
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="{{asset('img/home.png')}}" alt="" width="72" height="72">
-        <h2>Web Scraping</h2>
-        <p class="lead">Below is a Demo made for web-scraping you can scrap the Amount of the products by providing the link of the product from earthier <span class="badge badge-primary badge-pill"> Souq</span> <span class="badge badge-success badge-pill"> Amazon</span> <span class="badge badge-warning badge-pill"> Jumia</span></p>
+        {{--<img class="d-block mx-auto mb-4" src="{{asset('img/home.png')}}" alt="" width="72" height="72">--}}
+        <h2>Chan Scan</h2>
+        <p class="lead">Below is a Demo made for tracking the products by providing the link of the product from
+            <span class="badge badge-primary badge-pill"> Souq</span><br>
+            To get products last update hit Refresh and all your products will be up to date
+        </p>
     </div>
 
     {{--@if(Auth::user()->products->count() > 0)--}}
@@ -103,7 +106,7 @@
 
 
     <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
+        <div class="col-md-5 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your Products</span>
                 {{--<div class="loader"></div>--}}
@@ -136,7 +139,7 @@
                                     @endif
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{url('/delete/'.$product->id)}}" style="width: 90px; margin-left: 152px;" class="btn btn-danger">Delete</a>
+                                    <a href="{{url('/delete/'.$product->id)}}" style="width: 90px; margin-left: 244px;" class="btn btn-danger">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +151,7 @@
             <form class="card p-2" method="post" action="{{url('/refresh')}}">
                 @csrf
                 <div class="input-group">
-                    <button type="submit" style="width: 331px;" class="btn btn-success">Refresh</button>
+                    <button type="submit" style="width: 428px;" class="btn btn-success">Refresh</button>
                 </div>
             </form>
 
@@ -164,7 +167,7 @@
             </h4>
 
         </div>
-        <div class="col-md-8 order-md-1">
+        <div class="col-md-7 order-md-1">
             <h4 class="mb-3">Add New Product</h4>
             <form method="post" action="{{url('/add')}}" >
                 @csrf
@@ -199,12 +202,7 @@
     </div>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 MAXES-EG</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
+        <p class="mb-1">© 2017-2018 Created by <a href="https://maxeseg.com/">Maxseg.com</a></p>
     </footer>
 </div>
 @endsection

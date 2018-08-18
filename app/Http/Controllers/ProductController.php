@@ -34,8 +34,7 @@ class ProductController extends Controller
 
         else if($request->paymentMethod =='souq' && str_contains($request->link,'souq.com')){
             if(!$this->add_souq($request)){
-
-                Session::flash('error',"Failed To Find Souq.com Product Please Try Again");
+                Session::flash('error',"Product Amount not found due to connection issues or Souq don't provide your product quantity.");
                 return redirect()->back();
             }
         }
@@ -43,6 +42,7 @@ class ProductController extends Controller
             Session::flash('error',"Link Dosen't Match with the Chosen website");
             return redirect()->back();
         }
+
 
         Session::flash('success','Product Added Successfully');
         return redirect()->back();
@@ -260,8 +260,6 @@ class ProductController extends Controller
         if($product->name == "Not Found" || strlen($product->amount) < 10 || $product->price ==0){
             return false;
         }
-
-
 
         $product->save();
         return true;

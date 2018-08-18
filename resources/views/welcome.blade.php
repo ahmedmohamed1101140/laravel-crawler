@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{asset('img/favicon-32x32.png')}}">
-    <title>Laravel | Crawler Demo</title>
+{{--    <link rel="icon" href="{{asset('img/favicon-32x32.png')}}">--}}
+    <title>Laravel | Chan Scan</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -79,9 +79,9 @@
 
     <div class="content">
         <div class="title m-b-md">
-            Web Scraping
+           Chan Scan
         </div>
-        <p style="color: black; font-size: 38px;">with this demo you can scrap the amount of products in websites stock like souq jumia and amazon Register for free and test</p>
+        <p style="color: black; font-size: 38px;">You can track your products from websites stock</p>
 
     </div>
 </div>

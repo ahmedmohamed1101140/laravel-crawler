@@ -28,16 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(auth()->user()){
-            $products = Auth::user()->products;
-            foreach ($products as $product){
-                if($product->type == 'souq'){
-                    $this->refresh_souq_items($product);
-                }
-            }
-            Session::flash('success','All Products Syncs');
-            return view('home');
-        }
+//        if(auth()->user()){
+//            $products = Auth::user()->products;
+//            foreach ($products as $product){
+//                if($product->type == 'souq'){
+//                    $this->refresh_souq_items($product);
+//                }
+//            }
+//            Session::flash('success','All Products Syncs');
+//            return view('home');
+//        }
         return view('home');
     }
 
