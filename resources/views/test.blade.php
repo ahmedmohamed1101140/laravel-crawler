@@ -35,17 +35,13 @@
         <div class="album py-5 bg-light">
             <div class="container">
 
-                <div class="container">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3><span class="badge badge-primary badge-pill">{{ Auth::user()->products->count()}}</span> Product in your List</h3>
-                                    @if( Auth::user()->products->count() > 0)
-                                    <a href="{{url('/refresh')}}" class="btn btn-success my-2"><i class="fa fa-refresh"></i> Refresh</a>
-                                    @endif
-                                </div>
-                            </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div style="height:27px;" class="d-flex justify-content-between align-items-center">
+                            <h3 style="margin-top: 8px;"><span class="badge badge-primary badge-pill">{{ Auth::user()->products->count()}}</span> Product in your List</h3>
+                            @if( Auth::user()->products->count() > 0)
+                            <a href="{{url('/refresh')}}" class="btn btn-success my-2"><i class="fa fa-refresh"></i> Refresh</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -111,7 +107,7 @@
             <p class="float-right">
                 <a href="#">Back to top</a>
             </p>
-            <p class="mb-1">© 2017-2018 Created by <a href="https://maxeseg.com/">Maxseg.com</a></p>
+            <p class="mb-1">© 2017-2018 Created by <a href="https://maxeseg.com/">Maxeseg.com</a></p>
         </div>
     </footer>
 
