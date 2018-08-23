@@ -21,10 +21,13 @@ class ProductController extends Controller
             'paymentMethod' => 'required'
         ));
 
-        if(Product::where('url','=',$request->link)->get() != null){
-            Session::flash('warning',"You all ready have the product in your list!");
-            return redirect()->back();
+        foreach (auth()->user()->products as $product){
+            if($product->url == $request->link){
+                Session::flash('warning',"You all ready have the product in your list!");
+                return redirect()->back();
+            }
         }
+
 
         if($request->paymentMethod == 'jumia'){
             Session::flash('error',"we Don't support them yet!");

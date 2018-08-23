@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('name')->default('Not Found');
-            $table->string('link')->default('Not Found');
+            $table->text('link')->default('Not Found');
             $table->longText('url');
             $table->string('type');
             $table->string('price')->default(0);
