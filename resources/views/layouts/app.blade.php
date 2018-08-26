@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 {{--    <link rel="icon" href="{{asset('img/favicon-32x32.png')}}">--}}
 
-    <title>Laravel | Chan Scan</title>
+    <title>Chan Scan</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
