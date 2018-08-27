@@ -15,6 +15,11 @@ class ProductController extends Controller
 {
     //
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function add_new (Request $request){
         $this->validate($request,array(
             'link' => 'required',
@@ -59,6 +64,10 @@ class ProductController extends Controller
 
     public function refresh(){
         $products = Auth::user()->products;
+        if(count($products) == 0){
+            Session::flash('warning',"You have no product in your list start add souq products");
+            return redirect()->back();
+        }
         foreach ($products as $product){
             if($product->type == 'souq'){
                 $this->refresh_souq_items($product);
